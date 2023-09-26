@@ -8,19 +8,16 @@ public class InputManager : SingletonManager<InputManager>
     #region Fields
 
     public static event Action OnClicked;
-    
-    [SerializeField] private float sensivity = 100f, _x_Clamp=0;
-
-    private float firstValue, currentValue, screenWidth, lastSumValue;
-
-    private Vector3 touchPos;
-    private bool handsUp, swipeDisable;
+    [SerializeField] private float swerveSensitivity = 0;
+     
+    private Vector3 mouseFirstPosition, _directionVector, mouseNextPosition;
+    private bool _isTouched = false;
     
     #endregion
 
     #region Properties
 
-    public float sumValue { get; private set; }
+    public Vector3 directionVector => _directionVector;
     
     #endregion
 
@@ -29,6 +26,7 @@ public class InputManager : SingletonManager<InputManager>
     void Update()
     {
         CheckClick();
+        SetInputs();
     }
 
     #endregion
@@ -47,46 +45,27 @@ public class InputManager : SingletonManager<InputManager>
 
     #region Public Methods
 
-    void CalculateSwerveValue()
+    void SetInputs()
     {
-        if (swipeDisable)
+        if (Input.GetMouseButtonDown(0))
         {
-            return;
+            mouseFirstPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         }
-            if (Input.GetMouseButton(0))
-            {
-                if (handsUp)
-                {
-                    firstValue = Input.mousePosition.x;
-                    handsUp = false;
-                }
 
-                currentValue = Input.mousePosition.x;
+        if (Input.GetMouseButton(0))
+        {
+            mouseNextPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            _directionVector = (mouseNextPosition - mouseFirstPosition)*swerveSensitivity;
+            mouseFirstPosition = mouseNextPosition;
+        }
 
-                sumValue = currentValue - firstValue;
-                sumValue /= screenWidth;
-                sumValue *= sensivity;
-                sumValue += lastSumValue;
-            }
-            else
-            {
-                lastSumValue = sumValue;
-                handsUp = true;
-            }
-
-            if (sumValue > _x_Clamp)
-            {
-                sumValue = _x_Clamp;
-                lastSumValue = _x_Clamp;
-                handsUp = true;
-            }
-            else if (sumValue < -_x_Clamp)
-            {
-                sumValue = -_x_Clamp;
-                lastSumValue = -_x_Clamp;
-                handsUp = true;
-            }
+        if (Input.GetMouseButtonUp(0))
+        {
+            _directionVector=Vector3.zero;
+            _isTouched = false;
+        }
     }
+
     
     #endregion
 }
