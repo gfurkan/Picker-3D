@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using Settings;
 using UnityEngine;
@@ -81,13 +80,14 @@ public class PlayerMovement : MonoBehaviour
 
     void SetMovementControls(GameStates state)
     {
-        if (state is GameStates.Idle)
-        {
-            ControlMovement(false);
-        }
-        else if (state is GameStates.Running)
+        if (state is GameStates.Running)
         {
             ControlMovement(true);
+        }
+        else
+        {
+            ControlMovement(false);
+            _rb.velocity = Vector3.zero;
         }
     }
     void ControlMovement(bool value)

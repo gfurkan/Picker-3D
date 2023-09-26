@@ -17,6 +17,7 @@ public class CollectibleCreator : MonoBehaviour
 
     void Start()
     {
+        GetComponent<MeshRenderer>().enabled = false;
         CreateCollectibles();
      
     }

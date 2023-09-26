@@ -57,10 +57,12 @@ public class GameManager : SingletonManager<GameManager>
             {
                 case GameStates.Fail:
                     
+                    UIManager.Instance.ControlFailPanel(true);
                     break;
                 
                 case GameStates.Success:
                     
+                    UIManager.Instance.ControlSuccessPanel(true);
                     break;
                 
                 case GameStates.Endgame:
@@ -77,6 +79,6 @@ public class GameManager : SingletonManager<GameManager>
 }
 public enum GameStates
 {
-    Empty,Idle,Running,Endgame,Success,Fail
+    Idle,Running,Obstacle,Endgame,Success,Fail
 }
 }

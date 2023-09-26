@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Collectibles;
-using Interfaces;
-using Unity.VisualScripting;
 using UnityEngine;
-using IPoolable = Interfaces.IPoolable;
 
 namespace Managers
 {  
@@ -72,7 +68,6 @@ namespace Managers
 
         public void AddObjectToPool(CollectibleController obj)
         {
-            obj.GetComponent<IPoolable>().OnObjectPooled();
             _pooledObjects.Enqueue(obj);
             obj.gameObject.SetActive(false);
         }
