@@ -11,7 +11,6 @@ public class InputManager : SingletonManager<InputManager>
     [SerializeField] private float swerveSensitivity = 0;
      
     private Vector3 mouseFirstPosition, _directionVector, mouseNextPosition;
-    private bool _isTouched = false;
     
     #endregion
 
@@ -62,7 +61,8 @@ public class InputManager : SingletonManager<InputManager>
         if (Input.GetMouseButtonUp(0))
         {
             _directionVector=Vector3.zero;
-            _isTouched = false;
+            mouseNextPosition = Vector3.zero;
+            mouseFirstPosition = Vector3.zero;
         }
     }
 

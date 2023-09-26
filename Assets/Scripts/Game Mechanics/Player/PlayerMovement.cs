@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Managers;
 using Settings;
 using UnityEngine;
@@ -12,7 +11,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private PlayerMovementSettings _movementSettings;
     
-    private Vector3 movementDirection;
+    private Vector3 movementSpeed;
+    private Rigidbody _rb;
+
+    private bool _isMovementEnabled = false;
+    
     #endregion
 
     #region Properties
@@ -23,14 +26,27 @@ public class PlayerMovement : MonoBehaviour
 
     #region Unity Methods
 
-    void Start()
+    private void OnEnable()
     {
-        
+        GameManager.OnGameStateChanged += SetMovementControls;
     }
 
-    void Update()
+    private void OnDisable()
     {
-        MovePlayer();
+        GameManager.OnGameStateChanged -= SetMovementControls;
+    }
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
+    
+    void FixedUpdate()
+    {
+        if (_isMovementEnabled)
+        {
+            MovePlayer();
+        }
     }
 
     #endregion
@@ -39,16 +55,44 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
-        Vector3 movementPosition = Vector3.zero;
-        
-         float XPosition = Mathf.Clamp(transform.position.x + InputManager.Instance.directionVector.x*_movementSettings.SwerveMovementSpeed*Time.deltaTime, _movementSettings.SwerveClamp.x, _movementSettings.SwerveClamp.y);
-         float ZPosition = transform.position.z + _movementSettings.ForwardMovementSpeed*Time.deltaTime;
-         
-         movementPosition.x = XPosition;
-         movementPosition.y = transform.position.y;
-         movementPosition.z = ZPosition;
-         
-         transform.position = movementPosition;
+         float XSpeed = InputManager.Instance.directionVector.x*_movementSettings.SwerveMovementSpeed;
+         float ZSpeed = _movementSettings.ForwardMovementSpeed;
+
+         if (transform.position.x <= _movementSettings.SwerveClamp.x)
+         {
+             if (XSpeed < 0)
+             {
+                 XSpeed = 0;
+             }
+         }
+         if (transform.position.x >= _movementSettings.SwerveClamp.y)
+         {
+             if ( XSpeed> 0)
+             {
+                 XSpeed = 0;
+             }
+         }
+         movementSpeed.x = XSpeed;
+         movementSpeed.y = 0;
+         movementSpeed.z = ZSpeed;
+
+         _rb.velocity = movementSpeed;
+    }
+
+    void SetMovementControls(GameStates state)
+    {
+        if (state is GameStates.Idle)
+        {
+            ControlMovement(false);
+        }
+        else if (state is GameStates.Running)
+        {
+            ControlMovement(true);
+        }
+    }
+    void ControlMovement(bool value)
+    {
+        _isMovementEnabled = value;
     }
     #endregion
 

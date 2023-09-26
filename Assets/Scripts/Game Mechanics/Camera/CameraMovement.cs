@@ -6,9 +6,9 @@ namespace Cam
 public class CameraMovement : MonoBehaviour
 {
     #region Fields
-    
-    [SerializeField] private CameraSettings _cameraSettings;
 
+    [SerializeField] private CameraSettings _cameraSettings;
+    
     private Transform _player;
     private Vector3 _distance;
     
@@ -27,7 +27,7 @@ public class CameraMovement : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _distance = transform.position - _player.position;
     }
-    void Update()
+    void FixedUpdate()
     {
         FollowPlayer();
     }
@@ -40,9 +40,7 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 destination = _player.position + _distance;
         destination.x = transform.position.x;
-        
-        transform.position =
-            Vector3.Lerp(transform.position, destination, _cameraSettings.CameraMovementSpeed * Time.deltaTime);
+        transform.position =Vector3.Lerp(transform.position,destination,_cameraSettings.CameraMovementSpeed*Time.fixedDeltaTime);
     }
     
     #endregion

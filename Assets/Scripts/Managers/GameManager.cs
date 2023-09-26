@@ -18,9 +18,31 @@ public class GameManager : SingletonManager<GameManager>
 
     #region Unity Methods
 
+    private void OnEnable()
+    {
+        InputManager.OnClicked += EnableRunningState;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnClicked -= EnableRunningState;
+    }
+
     void Awake()
     {
-        UpdateGameState(GameStates.Empty);
+        UpdateGameState(GameStates.Idle);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    void EnableRunningState()
+    {
+        if (_currentGameState is GameStates.Idle)
+        {
+            UpdateGameState(GameStates.Running);
+        }
     }
 
     #endregion
