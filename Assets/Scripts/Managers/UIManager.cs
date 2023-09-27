@@ -23,7 +23,7 @@ public class UIManager : SingletonManager<UIManager>
         }
         else
         {
-            _failPanel.transform.DOScale(0, 0.25f);
+            _failPanel.transform.DOScale(0, 0);
         }
     }
     
@@ -35,7 +35,7 @@ public class UIManager : SingletonManager<UIManager>
         }
         else
         {
-            _successPanel.transform.DOScale(0, 0.25f);
+            _successPanel.transform.DOScale(0, 0);
         }
     }
 

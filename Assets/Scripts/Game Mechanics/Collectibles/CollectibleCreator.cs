@@ -1,4 +1,4 @@
-using Managers;
+using Pools;
 using UnityEngine;
 
 namespace Collectibles
@@ -11,6 +11,7 @@ public class CollectibleCreator : MonoBehaviour
     [SerializeField] private Vector2 _collectibleDistanceValues;
     
     private 
+        
     #endregion
 
     #region Unity Methods
@@ -19,7 +20,6 @@ public class CollectibleCreator : MonoBehaviour
     {
         GetComponent<MeshRenderer>().enabled = false;
         CreateCollectibles();
-     
     }
 
     #endregion
@@ -32,7 +32,7 @@ public class CollectibleCreator : MonoBehaviour
         {
             for (int j = 0; j < _ballCounts.y; j++)
             {
-                var obj = PoolManager.Instance.GetObjectFromPool();
+                var obj = CollectiblePoolController.Instance.Get();
                 Vector3 spawnPos =transform.position+(Vector3.right * i * _collectibleDistanceValues.x) + (Vector3.forward * j * _collectibleDistanceValues.y);
                 obj.OnObjectSpawned(spawnPos,transform);
             }

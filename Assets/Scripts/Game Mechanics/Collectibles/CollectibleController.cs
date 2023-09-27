@@ -1,5 +1,6 @@
 using Interfaces;
 using Managers;
+using Pools;
 using UnityEngine;
 
 namespace Collectibles
@@ -64,7 +65,7 @@ public class CollectibleController : MonoBehaviour
         _rb.isKinematic = true;
         
         _isCollectibleAvailable = false;
-        PoolManager.Instance.AddObjectToPool(this);
+        CollectiblePoolController.Instance.ReturnObject(this);
     }
     
 

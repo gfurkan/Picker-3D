@@ -1,71 +1,44 @@
 using System.Collections.Generic;
-using Collectibles;
 using UnityEngine;
 
 namespace Managers
 {  
-    public class PoolManager :  SingletonManager<PoolManager>
-{
-        #region Fields
+    public class PoolManager<T> : SingletonManager<PoolManager<T>> where T: MonoBehaviour
+    {
+        [SerializeField] private T _prefab;
+        [SerializeField] private int _size;
 
-        [SerializeField] private CollectibleController _collectiblePrefab;
-        [SerializeField] private int _poolSize = 0;
-        
-        private Queue<CollectibleController> _pooledObjects = new Queue<CollectibleController>();
-        
-        #endregion
-        
-
-        #region Unity Methods
-
-        void Awake()
+        private List<T> _freeList=new List<T>();
+        private List<T> _usedList=new List<T>();
+ 
+        public void Awake()
         {
-             FillPool();
-        }
-
-        #endregion
-
-        #region Private Methods
-        
-
-        void FillPool()
-        {
-            for (int i = 0; i < _poolSize; i++)
+            for (var i = 0; i < _size; i++)
             {
-               var obj= Instantiate(_collectiblePrefab,  transform);
-               _pooledObjects.Enqueue(obj);
+                var pooledObject = Instantiate(_prefab, transform);
+                _freeList.Add(pooledObject);
             }
         }
-
-        void FillPoolIfEmpty(int digitValue)
-        {
-            if (_pooledObjects.Count == 0)
-            {
-                for (int i = 0; i < digitValue; i++)
-                {
-                    var obj= Instantiate(_collectiblePrefab, transform);
-                    _pooledObjects.Enqueue(obj);
-                }
-            }
-           
-        }
-        #endregion
-
-        #region Public Methods
-
-        public CollectibleController GetObjectFromPool()
-        {
-            FillPoolIfEmpty(10);
-            var obj=_pooledObjects.Dequeue();
-            return obj;
-        }
-
-        public void AddObjectToPool(CollectibleController obj)
-        {
-            _pooledObjects.Enqueue(obj);
-        }
         
-        #endregion
+        public T Get()
+        {
+            var numFree = _freeList.Count;
+            if (numFree == 0)
+                return null;
+
+            var pooledObject = _freeList[numFree - 1];
+            _freeList.RemoveAt(numFree - 1);
+            _usedList.Add(pooledObject);
+            return pooledObject;
+        }
+ 
+        public void ReturnObject(T pooledObject)
+        {
+            _usedList.Remove(pooledObject);
+            _freeList.Add(pooledObject);
+            
+            var pooledObjectTransform = pooledObject.transform;
+            pooledObjectTransform.localPosition = Vector3.zero;
+        }
     }
-  
 }

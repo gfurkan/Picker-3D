@@ -11,11 +11,6 @@ public class GameManager : SingletonManager<GameManager>
     
     #endregion
 
-    #region Properties
-    
-
-    #endregion
-
     #region Unity Methods
 
     private void OnEnable()

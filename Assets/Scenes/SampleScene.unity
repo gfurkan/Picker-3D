@@ -1043,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304a2152376907f4a9b0bec9320602f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 1607001346}
 --- !u!1 &998557382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,11 +1755,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1733968492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fe3fd3a04cb0634a85cc9edc49faecd, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c8cca1ab63bb1041979ef8e634e3b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectiblePrefab: {fileID: 772988701267835527, guid: 3ce30a8d291be964abdd57fa26135b61, type: 3}
-  _poolSize: 75
+  _prefab: {fileID: 772988701267835527, guid: 3ce30a8d291be964abdd57fa26135b61, type: 3}
+  _size: 50
 --- !u!1 &1783538021
 GameObject:
   m_ObjectHideFlags: 0

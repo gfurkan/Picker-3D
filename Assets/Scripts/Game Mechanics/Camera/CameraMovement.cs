@@ -7,10 +7,11 @@ public class CameraMovement : MonoBehaviour
 {
     #region Fields
     
+    [SerializeField] private Transform _player;
+    
     private Vector3 _startPosition;
     private Vector3 _distance;
-    
-    private Transform _player;
+
     private bool _isFollowEnabled = false;
     
     #endregion
@@ -30,8 +31,6 @@ public class CameraMovement : MonoBehaviour
 
     private void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
-        
         _distance = transform.position - _player.position;
         _startPosition = transform.position;
     }
