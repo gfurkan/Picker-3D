@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using Managers;
+using Settings;
 
 namespace Obstacles
 {  
@@ -11,9 +12,8 @@ public class PoolObstacleController : MonoBehaviour,ICollector
 {
     #region Fields
 
+    [SerializeField] private PoolObstacleSettings _obstacleSettings;
     [SerializeField] private int _requiredCollectibleCount = 0;
-    [SerializeField] private float _obstacleCompleteDelay = 0;
-    [SerializeField] private float _obstacleWaitingTime = 0;
     
     [SerializeField] private TextMeshPro _scoreText;
     [SerializeField] private Transform _floorPart;
@@ -39,7 +39,7 @@ public class PoolObstacleController : MonoBehaviour,ICollector
         if (_collectedCollectibleCount >= _requiredCollectibleCount)
         {
             _isObstacleCompleted = true;
-            yield return new WaitForSeconds(_obstacleCompleteDelay);
+            yield return new WaitForSeconds(_obstacleSettings.ObstacleCompleteDelay);
             
             Vector3 pos = new Vector3(_floorPart.transform.position.x, 0, _floorPart.transform.position.z);
             _floorPart.transform.DOMove(pos, 0.5f).OnComplete((() => GameManager.Instance.UpdateGameState(GameStates.Running)));
@@ -48,7 +48,7 @@ public class PoolObstacleController : MonoBehaviour,ICollector
 
     IEnumerator SetLevelFailed()
     {
-        yield return new WaitForSeconds(_obstacleWaitingTime);
+        yield return new WaitForSeconds(_obstacleSettings.ObstacleWaitingTime);
         if (!_isObstacleCompleted)
         {
             GameManager.Instance.UpdateGameState(GameStates.Fail);

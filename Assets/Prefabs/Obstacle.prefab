@@ -786,9 +786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9242717b43c2b074e9c0ace586e207a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _obstacleSettings: {fileID: 11400000, guid: c02c1109c481f544d9e61063013babe3, type: 2}
   _requiredCollectibleCount: 10
-  _obstacleCompleteDelay: 0.7
-  _obstacleWaitingTime: 3
   _scoreText: {fileID: 3824275389831445287}
   _floorPart: {fileID: 176137875918841384}
 --- !u!1 &6571535222410433833
