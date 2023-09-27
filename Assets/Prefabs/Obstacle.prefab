@@ -117,8 +117,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.99999976, z: 2.7148056}
-  m_Center: {x: 0, y: 0, z: -0.8574028}
+  m_Size: {x: 1, y: 0.99999976, z: 1.4068518}
+  m_Center: {x: 0, y: 0, z: -0.20342588}
 --- !u!1 &262513177826346172
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,8 +787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requiredCollectibleCount: 10
-  _obstacleCompleteDelay: 0.3
-  _obstacleWaitingTime: 1
+  _obstacleCompleteDelay: 0.7
+  _obstacleWaitingTime: 3
   _scoreText: {fileID: 3824275389831445287}
   _floorPart: {fileID: 176137875918841384}
 --- !u!1 &6571535222410433833

@@ -12,13 +12,9 @@ namespace Managers
         [SerializeField] private int _poolSize = 0;
         
         private Queue<CollectibleController> _pooledObjects = new Queue<CollectibleController>();
-      
-        #endregion
-        
-        #region Properties
-        
         
         #endregion
+        
 
         #region Unity Methods
 
@@ -26,7 +22,7 @@ namespace Managers
         {
              FillPool();
         }
-        
+
         #endregion
 
         #region Private Methods
@@ -38,7 +34,6 @@ namespace Managers
             {
                var obj= Instantiate(_collectiblePrefab,  transform);
                _pooledObjects.Enqueue(obj);
-               obj.gameObject.SetActive(false);
             }
         }
 
@@ -62,14 +57,12 @@ namespace Managers
         {
             FillPoolIfEmpty(10);
             var obj=_pooledObjects.Dequeue();
-            obj.gameObject.SetActive(true);
             return obj;
         }
 
         public void AddObjectToPool(CollectibleController obj)
         {
             _pooledObjects.Enqueue(obj);
-            obj.gameObject.SetActive(false);
         }
         
         #endregion

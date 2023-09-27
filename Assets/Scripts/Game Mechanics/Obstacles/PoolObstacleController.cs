@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Interfaces;
 using TMPro;
 using UnityEngine;
@@ -20,7 +19,6 @@ public class PoolObstacleController : MonoBehaviour,ICollector
     [SerializeField] private Transform _floorPart;
     
     private int _collectedCollectibleCount = 0;
-    private List<IPoolable> _collectedObjects = new List<IPoolable>();
     private bool _isObstacleCompleted = false;
     
     #endregion
@@ -41,11 +39,6 @@ public class PoolObstacleController : MonoBehaviour,ICollector
         if (_collectedCollectibleCount >= _requiredCollectibleCount)
         {
             _isObstacleCompleted = true;
-            for (int i = 0; i < _collectedObjects.Count; i++)
-            {
-                _collectedObjects[i].OnObjectPooled();
-                yield return new WaitForSeconds(_obstacleCompleteDelay/_collectedObjects.Count);
-            }
             yield return new WaitForSeconds(_obstacleCompleteDelay);
             
             Vector3 pos = new Vector3(_floorPart.transform.position.x, 0, _floorPart.transform.position.z);
@@ -59,7 +52,6 @@ public class PoolObstacleController : MonoBehaviour,ICollector
         if (!_isObstacleCompleted)
         {
             GameManager.Instance.UpdateGameState(GameStates.Fail);
-            print(name);
         }
 
     }
@@ -67,11 +59,10 @@ public class PoolObstacleController : MonoBehaviour,ICollector
 
     #region Public Methods
 
-    public void CollectObject(IPoolable obj)
+    public void CollectObject()
     {
         _collectedCollectibleCount++;
         _scoreText.text = _collectedCollectibleCount + " / " + _requiredCollectibleCount;
-        _collectedObjects.Add(obj);
 
         if (!_isObstacleCompleted)
         {

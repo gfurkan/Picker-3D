@@ -55,6 +55,13 @@ public class GameManager : SingletonManager<GameManager>
         {
             switch (state)
             {
+                case GameStates.Idle:
+                    
+                    UIManager.Instance.ControlFailPanel(false);
+                    UIManager.Instance.ControlSuccessPanel(false);
+                    
+                    break;
+                
                 case GameStates.Fail:
                     
                     UIManager.Instance.ControlFailPanel(true);

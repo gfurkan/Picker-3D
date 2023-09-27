@@ -9,18 +9,13 @@ public class PlayerMovement : MonoBehaviour
     #region Fields
 
     [SerializeField] private PlayerMovementSettings _movementSettings;
-    
-    private Vector3 movementSpeed;
+
+    private Vector3 _startPosition;
+    private Vector3 _movementSpeed;
     private Rigidbody _rb;
 
     private bool _isMovementEnabled = false;
     
-    #endregion
-
-    #region Properties
-    
-
-
     #endregion
 
     #region Unity Methods
@@ -28,15 +23,18 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnGameStateChanged += SetMovementControls;
+        LevelManager.OnLevelChanged += ResetPosition;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStateChanged -= SetMovementControls;
+        LevelManager.OnLevelChanged -= ResetPosition;
     }
 
     private void Awake()
     {
+        _startPosition = transform.position;
         _rb = GetComponent<Rigidbody>();
     }
     
@@ -71,35 +69,33 @@ public class PlayerMovement : MonoBehaviour
                  XSpeed = 0;
              }
          }
-         movementSpeed.x = XSpeed;
-         movementSpeed.y = 0;
-         movementSpeed.z = ZSpeed;
+         _movementSpeed.x = XSpeed;
+         _movementSpeed.y = 0;
+         _movementSpeed.z = ZSpeed;
 
-         _rb.velocity = movementSpeed;
+         _rb.velocity = _movementSpeed;
     }
 
     void SetMovementControls(GameStates state)
     {
         if (state is GameStates.Running)
         {
-            ControlMovement(true);
+            _isMovementEnabled = true;
+            _rb.interpolation = RigidbodyInterpolation.Interpolate;
         }
         else
         {
-            ControlMovement(false);
+            _isMovementEnabled = false;
             _rb.velocity = Vector3.zero;
+            
+            _rb.interpolation = RigidbodyInterpolation.None;
         }
     }
-    void ControlMovement(bool value)
+    void ResetPosition()
     {
-        _isMovementEnabled = value;
+        transform.position = _startPosition;
     }
     #endregion
-
-    #region Public Methods
-
-
     
-    #endregion
 }
 }

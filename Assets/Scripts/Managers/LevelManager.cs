@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,8 @@ public class LevelManager : SingletonManager<LevelManager>
 {
     #region Fields
 
+    public static event Action OnLevelChanged;
+    
     [SerializeField] private List<GameObject> levelPrefabs = new List<GameObject>();
     
     private GameObject currentLevel;
@@ -21,7 +23,7 @@ public class LevelManager : SingletonManager<LevelManager>
         get => PlayerPrefs.GetInt("levelIndex");
         set
         {
-            PlayerPrefs.SetInt("levelIndex",_levelIndex);
+            PlayerPrefs.SetInt("levelIndex",value);
         }
     }
 
@@ -42,33 +44,29 @@ public class LevelManager : SingletonManager<LevelManager>
         if (currentLevel != null)
         {
             Destroy(currentLevel);
-            currentLevel=Instantiate(levelPrefabs[_levelIndex], Vector3.zero, Quaternion.identity);
+            currentLevel=Instantiate(levelPrefabs[_levelIndex%(levelPrefabs.Count)], Vector3.zero, Quaternion.identity);
         }
         else
         {
-            currentLevel=Instantiate(levelPrefabs[_levelIndex], Vector3.zero, Quaternion.identity);
+            currentLevel=Instantiate(levelPrefabs[_levelIndex%(levelPrefabs.Count)], Vector3.zero, Quaternion.identity);
         }
-        
         GameManager.Instance.UpdateGameState(GameStates.Idle);
         UIManager.Instance.SetLevelText(_levelIndex);
+        
+        OnLevelChanged?.Invoke();
     }
 
     public void LoadNextLevel()
     {
-        if (_levelIndex < levelPrefabs.Count - 1)
-        {
-            _levelIndex++;
-        }
-        else
-        {
-            _levelIndex = 0;
-        }
-         
+        _levelIndex++;
+        
         Destroy(currentLevel);
-        currentLevel=Instantiate(levelPrefabs[_levelIndex], Vector3.zero, Quaternion.identity);
+        currentLevel=Instantiate(levelPrefabs[_levelIndex%(levelPrefabs.Count)], Vector3.zero, Quaternion.identity);
         
         GameManager.Instance.UpdateGameState(GameStates.Idle);
         UIManager.Instance.SetLevelText(_levelIndex);
+        
+        OnLevelChanged?.Invoke();
     }
 
     #endregion

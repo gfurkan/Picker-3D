@@ -48,13 +48,14 @@ public class InputManager : SingletonManager<InputManager>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            mouseFirstPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            mouseFirstPosition = Input.mousePosition;
         }
 
         if (Input.GetMouseButton(0))
         {
-            mouseNextPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            _directionVector = (mouseNextPosition - mouseFirstPosition)*swerveSensitivity;
+            mouseNextPosition = Input.mousePosition;
+            _directionVector = Camera.main.ScreenToViewportPoint(mouseNextPosition - mouseFirstPosition)*swerveSensitivity;
+            
             mouseFirstPosition = mouseNextPosition;
         }
 

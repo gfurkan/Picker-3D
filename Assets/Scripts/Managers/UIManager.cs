@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -12,32 +10,6 @@ public class UIManager : SingletonManager<UIManager>
 
     [SerializeField] private Transform _failPanel, _successPanel;
     [SerializeField] private TextMeshProUGUI _levelText;
-    
-    #endregion
-
-    #region Properties
-    
-
-
-    #endregion
-
-    #region Unity Methods
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
-    #endregion
-
-    #region Private Methods
-
-
     
     #endregion
 

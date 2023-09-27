@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Collectibles
 {  
-public class CollectibleController : MonoBehaviour,IPoolable
+public class CollectibleController : MonoBehaviour
 {
     #region Fields
 
@@ -15,6 +15,16 @@ public class CollectibleController : MonoBehaviour,IPoolable
 
 
     #region Unity Methods
+
+    private void OnEnable()
+    {
+        LevelManager.OnLevelChanged += PoolObjectBack;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnLevelChanged -= PoolObjectBack;
+    }
 
     private void Awake()
     {
@@ -27,7 +37,7 @@ public class CollectibleController : MonoBehaviour,IPoolable
         {
             if (other.TryGetComponent(out ICollector obstacle))
             {
-                obstacle.CollectObject(this);
+                obstacle.CollectObject();
                 _isCollectibleAvailable = false;
             } 
         }
@@ -40,14 +50,19 @@ public class CollectibleController : MonoBehaviour,IPoolable
     public void OnObjectSpawned(Vector3 position,Transform parent)
     {
         _isCollectibleAvailable = true;
-        transform.parent = parent;
-        transform.localPosition = position;
+        transform.position = position;
+        
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
         _rb.isKinematic = false;
     }
-    
-    public void OnObjectPooled()
+
+    public void PoolObjectBack()
     {
+        transform.localPosition = Vector3.zero;
+        
+        _rb.interpolation = RigidbodyInterpolation.None;
         _rb.isKinematic = true;
+        
         _isCollectibleAvailable = false;
         PoolManager.Instance.AddObjectToPool(this);
     }

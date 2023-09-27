@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3123f80a4f5b5b44b445a118d9d45a0, type: 3}
   m_Name: Player Movement Settings
   m_EditorClassIdentifier: 
-  _forwardMovementSpeed: 10
-  _swerveMovementSpeed: 8
+  _forwardMovementSpeed: 15
+  _swerveMovementSpeed: 25
   _swerveClamp: {x: -6.6, y: 6.6}

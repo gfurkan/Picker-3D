@@ -33,7 +33,7 @@ public class CollectibleCreator : MonoBehaviour
             for (int j = 0; j < _ballCounts.y; j++)
             {
                 var obj = PoolManager.Instance.GetObjectFromPool();
-                Vector3 spawnPos =Vector3.right * i * _collectibleDistanceValues.x + Vector3.forward * j * _collectibleDistanceValues.y;
+                Vector3 spawnPos =transform.position+(Vector3.right * i * _collectibleDistanceValues.x) + (Vector3.forward * j * _collectibleDistanceValues.y);
                 obj.OnObjectSpawned(spawnPos,transform);
             }
         }
