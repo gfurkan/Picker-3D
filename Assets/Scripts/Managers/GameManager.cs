@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Managers
 {  
@@ -26,6 +27,18 @@ public class GameManager : SingletonManager<GameManager>
     void Awake()
     {
         UpdateGameState(GameStates.Idle);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            UpdateGameState(GameStates.Success);
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            UpdateGameState(GameStates.Fail);
+        }
     }
 
     #endregion
