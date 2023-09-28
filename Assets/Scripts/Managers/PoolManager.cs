@@ -24,8 +24,10 @@ namespace Managers
         {
             var numFree = _freeList.Count;
             if (numFree == 0)
-                return null;
-
+            {
+                FillPoolIfEmpty();
+                numFree = _freeList.Count;
+            }
             var pooledObject = _freeList[numFree - 1];
             _freeList.RemoveAt(numFree - 1);
             _usedList.Add(pooledObject);
@@ -39,6 +41,15 @@ namespace Managers
             
             var pooledObjectTransform = pooledObject.transform;
             pooledObjectTransform.localPosition = Vector3.zero;
+        }
+
+        private void FillPoolIfEmpty()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var pooledObject = Instantiate(_prefab, transform);
+                _freeList.Add(pooledObject);
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ public class CollectibleController : MonoBehaviour
     #region Fields
 
     private bool _isCollectibleAvailable = false;
+    private bool _isSpawned = false;
+    
     private Rigidbody _rb;
     
     #endregion
@@ -48,9 +50,11 @@ public class CollectibleController : MonoBehaviour
 
     #region Public Methods
 
-    public void OnObjectSpawned(Vector3 position,Transform parent)
+    public void OnObjectSpawned(Vector3 position)
     {
         _isCollectibleAvailable = true;
+        _isSpawned = true;
+        
         transform.position = position;
         
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -59,13 +63,17 @@ public class CollectibleController : MonoBehaviour
 
     public void PoolObjectBack()
     {
-        transform.localPosition = Vector3.zero;
+        if (_isSpawned)
+        {
+            _isSpawned = false;
+            transform.localPosition = Vector3.zero;
         
-        _rb.interpolation = RigidbodyInterpolation.None;
-        _rb.isKinematic = true;
+            _rb.interpolation = RigidbodyInterpolation.None;
+            _rb.isKinematic = true;
         
-        _isCollectibleAvailable = false;
-        CollectiblePoolController.Instance.ReturnObject(this);
+            _isCollectibleAvailable = false;
+            CollectiblePoolController.Instance.ReturnObject(this);
+        }
     }
     
 

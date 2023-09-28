@@ -8,7 +8,7 @@ public class UIManager : SingletonManager<UIManager>
 {
     #region Fields
 
-    [SerializeField] private Transform _failPanel, _successPanel;
+    [SerializeField] private Transform _failPanel, _successPanel, _startPanel;
     [SerializeField] private TextMeshProUGUI _levelText;
     
     #endregion
@@ -39,6 +39,17 @@ public class UIManager : SingletonManager<UIManager>
         }
     }
 
+    public void ControlStartPanel(bool val)
+    {
+        if (val)
+        {
+            _startPanel.transform.DOScale(1, 0);
+        }
+        else
+        {
+            _startPanel.transform.DOScale(0, 0);
+        }
+    }
     public void SetLevelText(int levelIndex)
     {
         _levelText.text = "LEVEL " + (levelIndex + 1);

@@ -54,7 +54,13 @@ public class GameManager : SingletonManager<GameManager>
                     
                     UIManager.Instance.ControlFailPanel(false);
                     UIManager.Instance.ControlSuccessPanel(false);
+                    UIManager.Instance.ControlStartPanel(true);
                     
+                    break;
+                
+                case GameStates.Running:
+                    
+                    UIManager.Instance.ControlStartPanel(false);
                     break;
                 
                 case GameStates.Fail:

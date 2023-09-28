@@ -32,14 +32,14 @@ public class LevelManager : SingletonManager<LevelManager>
 
     private void Start()
     {
-        LoadCurrentLevel();
+        LoadCurrentLevel(false);
     }
 
     #endregion
      
     #region Public Methods
      
-    public void LoadCurrentLevel()
+    public void LoadCurrentLevel(bool replay)
     {
         if (currentLevel != null)
         {
@@ -52,8 +52,11 @@ public class LevelManager : SingletonManager<LevelManager>
         }
         GameManager.Instance.UpdateGameState(GameStates.Idle);
         UIManager.Instance.SetLevelText(_levelIndex);
-        
-        OnLevelChanged?.Invoke();
+
+        if (replay)
+        {
+            OnLevelChanged?.Invoke();
+        }
     }
 
     public void LoadNextLevel()

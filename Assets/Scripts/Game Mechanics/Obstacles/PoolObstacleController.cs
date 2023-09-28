@@ -20,6 +20,7 @@ public class PoolObstacleController : MonoBehaviour,ICollector
     
     private int _collectedCollectibleCount = 0;
     private bool _isObstacleCompleted = false;
+    private bool _isLevelFinished = false;
     
     #endregion
 
@@ -55,18 +56,33 @@ public class PoolObstacleController : MonoBehaviour,ICollector
         }
 
     }
+
+    void ControlCollecting(GameStates state)
+    {
+        if (state is GameStates.Fail || state is GameStates.Success)
+        {
+            _isLevelFinished = true;
+        }
+        else
+        {
+            _isLevelFinished = false;
+        }
+    }
     #endregion
 
     #region Public Methods
 
     public void CollectObject()
     {
-        _collectedCollectibleCount++;
-        _scoreText.text = _collectedCollectibleCount + " / " + _requiredCollectibleCount;
-
-        if (!_isObstacleCompleted)
+        if (!_isLevelFinished)
         {
-            StartCoroutine(CompleteObstacle());
+            _collectedCollectibleCount++;
+            _scoreText.text = _collectedCollectibleCount + " / " + _requiredCollectibleCount;
+
+            if (!_isObstacleCompleted)
+            {
+                StartCoroutine(CompleteObstacle());
+            }
         }
     }
     
