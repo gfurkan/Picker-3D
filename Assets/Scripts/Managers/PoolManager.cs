@@ -8,7 +8,7 @@ namespace Managers
         [SerializeField] private T _prefab;
         [SerializeField] private int _size;
 
-        private List<T> _freeList=new List<T>();
+        private Queue<T> _freeList=new Queue<T>();
         private List<T> _usedList=new List<T>();
  
         public void Awake()
@@ -16,7 +16,7 @@ namespace Managers
             for (var i = 0; i < _size; i++)
             {
                 var pooledObject = Instantiate(_prefab, transform);
-                _freeList.Add(pooledObject);
+                _freeList.Enqueue(pooledObject);
             }
         }
         
@@ -28,8 +28,7 @@ namespace Managers
                 FillPoolIfEmpty();
                 numFree = _freeList.Count;
             }
-            var pooledObject = _freeList[numFree - 1];
-            _freeList.RemoveAt(numFree - 1);
+            var pooledObject = _freeList.Dequeue();
             _usedList.Add(pooledObject);
             return pooledObject;
         }
@@ -37,7 +36,7 @@ namespace Managers
         public void ReturnObject(T pooledObject)
         {
             _usedList.Remove(pooledObject);
-            _freeList.Add(pooledObject);
+            _freeList.Enqueue(pooledObject);
             
             var pooledObjectTransform = pooledObject.transform;
             pooledObjectTransform.localPosition = Vector3.zero;
@@ -48,7 +47,7 @@ namespace Managers
             for (var i = 0; i < 10; i++)
             {
                 var pooledObject = Instantiate(_prefab, transform);
-                _freeList.Add(pooledObject);
+                _freeList.Enqueue(pooledObject);
             }
         }
     }

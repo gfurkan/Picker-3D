@@ -81,13 +81,14 @@ public class PlayerMovement : MonoBehaviour
         if (state is GameStates.Running)
         {
             _isMovementEnabled = true;
+            _rb.isKinematic = false;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
         }
         else
         {
             _isMovementEnabled = false;
             _rb.velocity = Vector3.zero;
-            
+            _rb.isKinematic = true; 
             _rb.interpolation = RigidbodyInterpolation.None;
         }
     }

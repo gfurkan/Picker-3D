@@ -53,10 +53,7 @@ public class LevelManager : SingletonManager<LevelManager>
         GameManager.Instance.UpdateGameState(GameStates.Idle);
         UIManager.Instance.SetLevelText(_levelIndex);
 
-        if (replay)
-        {
-            OnLevelChanged?.Invoke();
-        }
+        OnLevelChanged?.Invoke();
     }
 
     public void LoadNextLevel()

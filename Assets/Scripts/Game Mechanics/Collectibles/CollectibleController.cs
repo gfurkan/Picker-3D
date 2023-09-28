@@ -21,12 +21,12 @@ public class CollectibleController : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.OnLevelChanged += PoolObjectBack;
+        GameManager.OnGameStateChanged += PoolObjectBack;
     }
 
     private void OnDisable()
     {
-        LevelManager.OnLevelChanged -= PoolObjectBack;
+        GameManager.OnGameStateChanged -= PoolObjectBack;
     }
 
     private void Awake()
@@ -55,25 +55,28 @@ public class CollectibleController : MonoBehaviour
         _isCollectibleAvailable = true;
         _isSpawned = true;
         
-        transform.position = position;
-        
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
         _rb.isKinematic = false;
+        _rb.MovePosition(position);
     }
 
-    public void PoolObjectBack()
+    public void PoolObjectBack(GameStates state)
     {
-        if (_isSpawned)
+        if (state is GameStates.Fail || state is GameStates.Success)
         {
-            _isSpawned = false;
-            transform.localPosition = Vector3.zero;
+            if (_isSpawned)
+            {
+                _isSpawned = false;
+                _rb.MovePosition(Vector3.back*25);
         
-            _rb.interpolation = RigidbodyInterpolation.None;
-            _rb.isKinematic = true;
+                _rb.interpolation = RigidbodyInterpolation.None;
+                _rb.isKinematic = true;
         
-            _isCollectibleAvailable = false;
-            CollectiblePoolController.Instance.ReturnObject(this);
+                _isCollectibleAvailable = false;
+                CollectiblePoolController.Instance.ReturnObject(this);
+            } 
         }
+
     }
     
 
