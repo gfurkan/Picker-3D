@@ -56,18 +56,7 @@ public class PoolObstacleController : MonoBehaviour,ICollector
         }
 
     }
-
-    void ControlCollecting(GameStates state)
-    {
-        if (state is GameStates.Fail || state is GameStates.Success)
-        {
-            _isLevelFinished = true;
-        }
-        else
-        {
-            _isLevelFinished = false;
-        }
-    }
+    
     #endregion
 
     #region Public Methods

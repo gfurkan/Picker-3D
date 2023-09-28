@@ -1327,7 +1327,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1452030554}
         m_TargetAssemblyTypeName: Managers.LevelManager, Assembly-CSharp
         m_MethodName: LoadCurrentLevel
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2006,6 +2006,10 @@ PrefabInstance:
     - target: {fileID: 7436976734273553835, guid: 944d9269a30262c45aa4bb04a36a4045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7814563077936177807, guid: 944d9269a30262c45aa4bb04a36a4045, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

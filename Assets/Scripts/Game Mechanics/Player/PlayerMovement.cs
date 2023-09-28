@@ -87,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _isMovementEnabled = false;
-            _rb.velocity = Vector3.zero;
             _rb.isKinematic = true; 
             _rb.interpolation = RigidbodyInterpolation.None;
         }
